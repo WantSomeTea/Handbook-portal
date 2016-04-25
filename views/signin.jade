@@ -1,0 +1,28 @@
+//
+   Created by pavtr_000 on 11.03.2016.
+doctype html
+html(ng-app='handbookApp')
+    head
+        title Вход
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+        link(rel='stylesheet', href='/stylesheets/signin.css')
+        script(type='text/javascript', src='/javascripts/jquery-2.1.4.min.js')
+        script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+        script(type='text/javascript', src='/javascripts/noty/packaged/jquery.noty.packaged.min.js')
+        script(type='text/javascript', src='/javascripts/noty/themes/default.js')
+        script(type='text/javascript', src='/javascripts/angular.min.js')
+        script(type='text/javascript', src='/javascripts/signin.js')
+        script(type='text/javascript', src='/javascripts/angular/mask.min.js')
+
+    body(ng-controller='handbookController')
+        .container
+            form.form-signin
+                h2.form-signin-heading Вход
+                label.sr-only(for='inputUsername') Имя пользователя
+                input#inputUsername.form-control(type='text', placeholder='Имя пользователя', required='', autofocus='', ng-model='formAdmin.username')
+                label.sr-only(for='inputPassword') Пароль
+                input#inputPassword.form-control(type='password', placeholder='Пароль', required='', ng-model='formAdmin.password')
+                span
+                button.btn.btn-lg.btn-primary.btn-block(type='submit', ng-click='signin()') Вход
+

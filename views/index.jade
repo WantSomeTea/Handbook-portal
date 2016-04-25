@@ -1,0 +1,125 @@
+extends layout
+block jsBottom
+    script(type='text/javascript', src='/javascripts/angular/mask.min.js')
+
+block content
+    - var columns = {name:'Сотрудник',phoneNumber:'Мобильный',workNumber:'Рабочий', email:'email',jobName:'Должность',departmentName:'Департамент'}
+    div.container-fluid
+        .panel.panel-default
+            .panel-body
+                .container-fluid
+                    .row
+                        .col-xs-2
+                            button.btn.btn-primary(type="button" data-toggle="modal" data-target="#bAdd") Добавить
+                                span.glyphicon.glyphicon-plus(style='margin-left: 10px')
+                        .col-xs-6
+                        //.col-xs-4
+                            .input-group
+                                input.form-control#searchInput(type='text', ng-model='filterStr' placeholder='Поиск')
+                                .input-group-btn
+                                    select.form-control(ng-model='Prop')
+                                        option(value='name') Сотрудник
+                                        option(value='number') Мобильный
+                                        option(value='PBXext') Рабочий
+                                    button.btn.btn-primary(type='button' ng-click='search()')
+                                        span.glyphicon.glyphicon-search
+            table.table.table-striped.table-hover.table-condensed.table-bordered
+                tr
+                    each label, field in columns
+                        th(ng-click='setSort("#{field}")')
+                            i(ng-class='getSortClass("#{field}")') &nbsp;
+                            | #{label}
+                    th
+                tr(ng-repeat='employee in employees' ng-cloak)
+                    each label, field in columns
+                        if field == 'phoneNumber'
+                            td {{employee.#{field}|phoneNumber}}
+                        else
+                            td {{employee.#{field}}}
+                    td(style='text-align: center')
+                        button.btn.btn-default.btn-xs(ng-click='editEmployee(employee)' data-toggle="modal" data-target="#bAdd", style='margin-right: 5px')
+                            span.glyphicon.glyphicon-pencil
+                        button.btn.btn-default.btn-xs(ng-click='delEmployee(employee)')
+                            span.glyphicon.glyphicon-trash
+        .row
+            .col-md-6.text-left
+                nav
+                    ul.pagination(ng-cloak)
+                        li(ng-show='paginator.currentPage>1' ng-click='setCurrentPage(1)')
+                            a(href="#")
+                                span(aria-hidden="true") &laquo;
+                        li(ng-show='paginator.currentPage-1>0',ng-click='setCurrentPage(paginator.currentPage-1)')
+                            a(href="#" aria-label="Предыдущая")
+                                span(aria-hidden="true") &larr;
+                        li(ng-show='paginator.currentPage-2>0' ng-click='setCurrentPage(paginator.currentPage-2)')
+                            a(href="#") {{paginator.currentPage-2}}
+                        li(ng-show='paginator.currentPage-1>0' ng-click='setCurrentPage(paginator.currentPage-1)')
+                            a(href="#") {{paginator.currentPage-1}}
+                        li.active
+                            a(href="#") {{paginator.currentPage}}
+                        li(ng-show='paginator.currentPage+1<=paginator.lastPage' ng-click='setCurrentPage(paginator.currentPage+1)')
+                            a(href="#") {{paginator.currentPage+1}}
+                        li(ng-show='paginator.currentPage+2<=paginator.lastPage' ng-click='setCurrentPage(paginator.currentPage+2)')
+                            a(href="#") {{paginator.currentPage+2}}
+                        li(ng-show='paginator.currentPage+1<=paginator.lastPage' ng-click='setCurrentPage(paginator.currentPage+1)')
+                            a(href="#" aria-label="Следующая")
+                                span(aria-hidden="true") &rarr;
+                        li(ng-show='paginator.currentPage<paginator.lastPage' ng-click='setCurrentPage(paginator.lastPage)')
+                            a(href="#")
+                                span(aria-hidden="true") &raquo;
+            .col-md-6.text-right
+                nav
+                    ul.pagination
+                        li(ng-click='setPageLimit(2)' ng-class='getPageLimitClass(2)')
+                            a(href='#') 2
+                        li(ng-click='setPageLimit(5)' ng-class='getPageLimitClass(5)')
+                            a(href='#') 5
+                        li(ng-click='setPageLimit(10)' ng-class='getPageLimitClass(10)')
+                            a(href='#') 10
+                        if showAll
+                            li(ng-click='setPageLimit(0)' ng-class='getPageLimitClass(0)')
+                                a(href='#') Все
+            .modal.fade#bAdd(tabindex=-1 role="dialog" aria-labelledby="bAddLabel")
+                .modal-dialog(role="document")
+                    .modal-content
+                        .modal-header
+                            button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                                span(aria-hidden="true") &times;
+                            h4.modal-title#bAddLabel Добавление сотрудника
+
+                        form(name='empForm', ng-submit='submitForm()', novalidate='')
+                            .modal-body#modalBody
+                                .form-group
+                                    .row
+                                        //name:'Сотрудник',phoneNumber:'Мобильный',workNumber:'Рабочий', email:'email',jobName:'Должность',departmentName:'Департамент'
+                                        .col-md-4
+                                            label Фамилия
+                                            input.form-control(type='text', ng-model='formEmployee.second_name', required='')
+                                        .col-md-4
+                                            label Имя
+                                            input.form-control(type='text', ng-model='formEmployee.first_name', required='')
+                                        .col-md-4
+                                            label Отчество
+                                            input.form-control(type='text', ng-model='formEmployee.middle_name', required='')
+                                .form-group
+                                    .row
+                                        .col-md-6
+                                            label Департамент
+                                            select.form-control.input-sm(ng-model='formEmployee.departmentName', ng-options='opt as opt for opt in departments', required='')
+                                        .col-md-6
+                                            label Должность
+                                            select.form-control.input-sm(ng-model='formEmployee.jobName', ng-options='opt as opt for opt in jobs', required='')
+                                .form-group
+                                    .row
+                                        .col-md-4
+                                            label Email
+                                            input.form-control(type='text', name='email', ng-model='formEmployee.email', required='')
+                                        .col-md-4
+                                            label Мобильный номер
+                                            input#cellNum.form-control(type='text',name='phoneNumber', ng-model='formEmployee.phoneNumber', ui-mask='+9 (999) 999-9999', required='')
+                                        .col-md-4
+                                            label Рабочий номер
+                                            input#PBXext.form-control(type='text', numbers-only='',  name='workNumber', ng-model='formEmployee.workNumber', required='')
+                            .modal-footer
+                                button.btn.btn-default(type="button" data-dismiss="modal") Закрыть
+                                input.btn.btn-primary.submit-btn(type='submit', value='Сохранить' ng-click='saveEmployee()', data-dismiss="modal")

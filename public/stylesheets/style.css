@@ -1,0 +1,135 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  max-width: 1376px;
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+.navbar-xs .container-fluid{
+  max-width: 1376px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+table tr th {
+  cursor: pointer;
+}
+
+table .glyphicon-remove{
+  color: #e74c3c;
+}
+
+
+table .glyphicon-minus{
+  color: #f1c40f;
+}
+
+
+table .glyphicon-ok{
+  color: #27ae60;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
+}
+
+.pagecontent {
+  padding-top: 20px;
+}
+
+#help-block {
+  color: #CD5555;
+  margin: 0px 0 0px;
+}
+
+.navbar-xs {
+  min-height:45px;
+  height: 45px;
+}
+.navbar-xs .navbar-text {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  line-height: 45px;
+}
+.navbar-xs .navbar-nav > li > a {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 45px;
+}
+
+.navbar-xs .container-fluid {
+  height: 45px;
+  margin-top: 0px;
+}
+
+.input-group .input-group-btn > select{
+  width: 140px;
+  border-radius: 0px;
+  border-left: 0px;
+  margin-top: 0px;
+  padding-top: 7px;
+}
+
+.container-fluid .row .col-xs-6{
+  width: 46%;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+#parent{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+#block {
+  display: block;
+  border: none;
+  font-size: 40px;
+  font-family: "Lato",sans-serif;
+  color: #424242;
+  text-align: center;
+}
+
+#scrollTable {
+  height: 400px !important;
+  overflow-y: scroll;
+}
+
+#scrollList {
+  height: 500px !important;
+  overflow-y: scroll;
+}
+
+
+
